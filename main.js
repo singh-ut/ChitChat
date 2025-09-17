@@ -1,29 +1,52 @@
-/* ### SELECTING ALL ELEMENTS & TARGETING ### */
-const send_btn = document.querySelector("#send-btn");
-const user_input = document.querySelector("#message-input");
+// REQUIRED ALL ELEMENTS
 const chat_window = document.querySelector("#chat-window");
+const message_input = document.querySelector("#message-input");
+const send_button = document.querySelector("#send-btn");
 
-// ### MESSAGE SENDING FUNCTIONALITY ###
-const sendMsg = () => {
-  const user_message = user_input.value.trim();
-
-  if (user_message !== "") {
-    const message_element = document.createElement("div");
-    message_element.classList.add("message");
-    message_element.innerText = user_message;
-    chat_window.appendChild(message_element);
-    chat_window.scrollTop = chat_window.scrollHeight;
-  }
-
-  user_input.value = "";
+// FUNCTION FOR DISPLAYING MESSAGES
+const displayMsgs = (message) => {
+  const msgElement = document.createElement("div");
+  msgElement.classList.add("message");
+  msgElement.innerText = message;
+  chat_window.appendChild(msgElement);
 };
 
-// ### EVENT LISTENER TO 'SEND' BUTTON ###
-send_btn.addEventListener("click", sendMsg);
+// FUNCTION FOR SENDING MESSAGE
+const sendMsg = () => {
+  const trimmedMsg = message_input.value.trim();
 
-// ### EVENT LISTENER TO 'ENTER' KEY ###
-user_input.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") {
-    sendMsg();
+  if (trimmedMsg !== "") {
+    displayMsgs(trimmedMsg);
+
+    const messages = JSON.parse(localStorage.getItem("chatMsgs")) || [];
+
+    messages.push(trimmedMsg);
+
+    localStorage.setItem("chatMsgs", JSON.stringify(messages));
+
+    message_input.value = "";
   }
+};
+
+// GETTING ALL SAVED MESSAGES IN LOCAL STORAGE (IF ANY)
+document.addEventListener("DOMContentLoaded", () => {
+  const savedMessagesJson = localStorage.getItem("chatMsgs");
+
+  if (savedMessagesJson) {
+    const savedMessages = JSON.parse(localStorage.getItem("chatMsgs"));
+
+    savedMessages.forEach((msg) => {
+      displayMsgs(msg);
+    });
+  }
+
+  send_button.addEventListener("click", sendMsg);
+
+  message_input.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      sendMsg();
+    }
+  });
 });
+
+// todo: Clear Message functionality; when user clicks on any message option will pop up to clear message
