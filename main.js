@@ -1,4 +1,4 @@
-/* ### SELECTING ALL ELEMENTS USING 'querySelector' ### */
+/* ### SELECTING ALL ELEMENTS & TARGETING ### */
 const send_btn = document.querySelector("#send-btn");
 const user_input = document.querySelector("#message-input");
 const chat_window = document.querySelector("#chat-window");
@@ -20,3 +20,10 @@ const sendMsg = () => {
 
 // ### EVENT LISTENER TO 'SEND' BUTTON ###
 send_btn.addEventListener("click", sendMsg);
+
+// ### EVENT LISTENER TO 'ENTER' KEY ###
+user_input.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") {
+    sendMsg();
+  }
+});
