@@ -7,3 +7,9 @@
 html {
   color-scheme: dark light;
 }
+
+.no-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

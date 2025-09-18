@@ -50,3 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // todo: Clear Message functionality; when user clicks on any message option will pop up to clear message
+
+chat_window.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  const deletePermission = prompt(
+    `Do you want to delete the message? (type yes to delete)`
+  );
+
+  if (deletePermission === "yes") {
+    chat_window.removeChild(e.target);
+    confirm("Your message have been successfully deleted");
+  }
+});
