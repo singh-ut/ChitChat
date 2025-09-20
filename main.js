@@ -49,8 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// todo: Clear Message functionality; when user clicks on any message option will pop up to clear message
-
 chat_window.addEventListener("contextmenu", (e) => {
   e.preventDefault();
   const deletePermission = prompt(
@@ -58,7 +56,12 @@ chat_window.addEventListener("contextmenu", (e) => {
   );
 
   if (deletePermission === "yes") {
+    const storageSaved = JSON.parse(localStorage.getItem("chatMsgs"));
+    const remaining = storageSaved.filter(
+      (item) => e.target.innerText !== item
+    );
+    localStorage.setItem("chatMsgs", JSON.stringify(remaining));
+
     chat_window.removeChild(e.target);
-    confirm("Your message have been successfully deleted");
   }
 });
